@@ -12,24 +12,37 @@ class boardDB(object):
 	def __init__(self):
 		print "init"
 		self.productNamesCache = defaultdict(dict)
-		self.lastNameCachedTimestamp = None
+		self.productNamesandAttributesCache = defaultdict(dict)
+		self.lastNameandAttributeCachedTimestamp = None
 	
 	def getProductNames(self):
+		productNamesDictionary = defaultdict(dict)
+		allProducts = self.getProductNamesandAttributes()
+		productNamesDictionary.fromkeys(allProducts.keys(), None)
+		
+		for key, value in allProducts.iteritems():
+			productNamesDictionary[key] = value['Name']			
+		
+		self.productNamesCache = productNamesDictionary
+		
+		return self.productNamesCache
+		
+	def getProductNamesandAttributes(self):
 		currentTimestamp = datetime.utcnow()
 
 		# initialization: if unknown when cache was last updated, update
-		if( self.lastNameCachedTimestamp == None ):
-			self._updateProductNamesCache()
+		if( self.lastNameandAttributeCachedTimestamp == None ):
+			self._updateProductNamesandAttributesCache()
 			
 		# cache already exists: check if outdated w/ timestamp
-		timeSinceLastCacheUpdate = currentTimestamp - self.lastNameCachedTimestamp
+		timeSinceLastCacheUpdate = currentTimestamp - self.lastNameandAttributeCachedTimestamp
 		print "Time since last cache update: " + str(timeSinceLastCacheUpdate)
 		
 		if( timeSinceLastCacheUpdate.total_seconds() > self.CACHE_CHECK_PERIOD_HRS * 3600 ):
-			self._updateProductNamesCache()
+			self._updateProductNamesandAttributesCache()
 		
 		return self.productNamesCache
-	
+		
 	# Private
 	def _updateProductNamesCache(self):
 		print "updateProductsCache"
@@ -46,7 +59,12 @@ class boardDB(object):
 			productNamesDictionary[key] = value['Name']			
 		
 		return productNamesDictionary
-		
+	
+	def _updateProductNamesandAttributesCache(self):
+		print "updateProductNamesandAttributesCache"
+		self.productNamesandAttributesCache = self._getAllProductNamesandAttributesFromSource()
+		self.lastNameandAttributeCachedTimestamp = datetime.utcnow()
+	
 	def _getAllProductNamesandAttributesFromSource(self):
 		print "getAllProductNamesandAttributesFromSource"
 		invalidProductNumber = False
