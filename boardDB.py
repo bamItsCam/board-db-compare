@@ -33,7 +33,7 @@ class boardDB(object):
         # given a protuct, return a dict of its attributes
         attributeDictionary = defaultdict(dict)
         allProducts = self._getProducts()
-        attributeDictionary = allProducts[productNumber]
+        attributeDictionary = allProducts.get(productNumber, {'Name': 'Invalid ID'})
         return attributeDictionary
         
     
