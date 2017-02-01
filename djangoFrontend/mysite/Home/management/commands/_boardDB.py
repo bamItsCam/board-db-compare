@@ -150,6 +150,6 @@ def testProductNamesCacheDriver():
     db2 = boardDB()
     db._printDict(db.getProductNames())
 
-testAttributeLookup()
+#testAttributeLookup()
 #testCacheUpdateSpeed()
 #testProductNamesCacheDriver()
