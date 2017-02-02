@@ -1,11 +1,14 @@
 {% extends "Home/header.html" %}
 
 {% block content %}
-<h3>This dropdown is just a proof of concept to test whether data is being fetched from the database correctly</h3>
-<h4>The dropdown menu contains the first 50 boards stored in the database</h4>
-<select class="form-control" data-style="btn-primary">
-    {% for b in boards %}
-        <option>{{b}}</option>
-    {% endfor %}
-</select>
+<h1>Get Started</h1>
+<h4>Hold <kbd>Ctrl+Shift</kbd> to select boards to compare. Use <kbd>Ctrl+Click</kbd> to deselect a board.</h4>
+<form method="POST">{% csrf_token %}
+    {{ form }}
+    <br>
+    <button type="submit" class="btn btn-primary btn-lg outline">Compare</button>
+</form>
+<br><br>
+<!--TODO: Create Compare page, link button to Compare page (after input checks for number of selected boards)-->
+
 {% endblock %}

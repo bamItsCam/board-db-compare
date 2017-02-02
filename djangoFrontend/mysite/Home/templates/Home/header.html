@@ -1,68 +1,119 @@
-<!--I'm using Bootstrap for my CSS. The below code was copied and modified from https://pythonprogramming.net/design-bootstrap-django-python-tutorial/ and uses the bootstrap.min.css
-	Bootstrap class, which has a bunch of built-in objects to use so I don't have to hardcode stuff :) -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-	<title>Django Tutorial Site</title>
+	<title>Single Board Compare</title>
 	<meta charset="utf-8" />
 	<!-- Jinga loads in the Bootstrap content that I added to Home's static folder -->
 	{% load staticfiles %}
 	<link rel="stylesheet" href="{% static 'Home/css/bootstrap.min.css' %}" type = "text/css"/>
 	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
-	
-	<style type="text/css">
-		html,
-		body {
-		  height:100%
-		}
-	</style>
 </head>
 
-<body class="body" style="background-color:#f6f6f6">
-	<div class="container-fluid" style="min-height:95%; ">
-		<div class="row">
-			  <div class="col-sm-12">
-				  <br>
-				  <center>
-				  <h3>Board DB Compare - Frontend</h3>
-				  </center>
-			  </div>
-		</div><hr>
+<!--My first stylesheet attempt of the decade :)-->
+<style>
+.jumbotron {
+  background-color: #f4511e;
+  color: #fff;
+  padding: 100px 25px;
+}
+.container-fluid {
+  padding: 30px 30px;
+}
+.btn-lg {
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
+}
+.btn.outline {
+	background: none;
+	padding: 12px 22px;
+}
+.btn-primary.outline {
+	border: 2px solid #f4511e;
+	color: #f4511e;
+}
+.btn-primary.outline:active, .btn-primary.outline.active {
+	border-color: #f78561;
+	color: #f78561;
+	box-shadow: none;
+}
+.btn {
+	padding: 14px 24px;
+	border: 0 none;
+	font-weight: 700;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+.btn:focus, .btn:active:focus, .btn.active:focus {
+	outline: 0 none;
+	background: none;
+}
+.item span {
+  font-style: normal;
+}
+.navbar {
+  margin-bottom: 0;
+  background-color: #f4511e;
+  z-index: 9999;
+  border: 0;
+  font-size: 12px !important;
+  line-height: 1.42857143 !important;
+  letter-spacing: 4px;
+  border-radius: 0;
+}
+.navbar li a, .navbar .navbar-brand {
+  color: #fff !important;
+}
+.navbar-nav li a:hover, .navbar-nav li.active a {
+  color: #f4511e !important;
+  background-color: #fff !important;
+}
+.navbar-default .navbar-toggle {
+  border-color: transparent;
+  color: #fff !important;
+}
+.form-control:focus {
+  border-color: #f4511e;
+  box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+  -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
+</style>
 
-		<div class="row">
-		  <div class="col-sm-2">
-		  <br>
+<!--TODO: Create dependant pages, link navbar buttons to pages-->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <!--TODO: change the root directory link once we have an actual server name for this-->
+      <a class="navbar-brand" href="http://127.0.0.1:8000/">Home</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/about/">ABOUT</a></li>
+        <li><a href="/contact/">CONTACT</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-		  <br>
-		   <!-- Great, til you resize. -->
-			<!--<div class="well bs-sidebar affix" id="sidebar" style="background-color:#fff">-->
-			<div class="well bs-sidebar" id="sidebar" style="background-color:#fff">
-			  <ul class="nav nav-pills nav-stacked">
-				<li><a href='/'>Home</a></li>
-				<!--<li><a href='/about/'>About</a></li>
-				<li><a href='/contact/'>Contact</a></li>-->
-			  </ul>
-			</div> <!--well bs-sidebar affix-->
-		  </div> <!--col-sm-2-->
-		  <div class="col-sm-10">
-		  
-			<div class='container-fluid'>
-			<br><br>
-				<!-- Jinga placeholder for content defined in home template -->
-			   {% block content %}
-			   {% endblock %}	
-			</div>
-		  </div>
-		</div> 
+<body>
+	<div class="jumbotron text-center">
+		<h1>Single Board Compare</h1>
 	</div>
-	<footer>
-		<div class="container-fluid" style='margin-left:15px'>
-			<!-- Someday I'll add a spiffy footer -->
-			<!--<p><a href="#" target="blank">Contact</a> | <a href="#" target="blank">LinkedIn</a> | <a href="#" target="blank">Twitter</a> | <a href="#" target="blank">Google+</a></p>-->
+	<div class="col-sm-12">
+		<div class='container-fluid'>
+			<br>
+      <!--Jinja placeholder for page content-->
+         {% block content %}
+         {% endblock %}
+      <br><br>
 		</div>
-	</footer>	
-	
+	</div>
 </body>
 
 </html>
