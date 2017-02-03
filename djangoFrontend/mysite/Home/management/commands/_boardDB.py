@@ -123,11 +123,11 @@ class boardDB(object):
 
 def testAttributeLookup():
     boardDB.CACHE_CHECK_PERIOD_HRS = 0.0014 # change caching period to 5 seconds for testing
-    boardDB.HIGHEST_KNOWN_PRODUCT_NUMBER = 8 # changed to fewer products for testing
+    boardDB.HIGHEST_KNOWN_PRODUCT_NUMBER = 156 # changed to fewer products for testing
     db = boardDB()
     db._printDict(db.getProductNames())
     db._printDict(db.getAttributes(1))
-            
+
 def testCacheUpdateSpeed():
     db = boardDB()
     startTime = datetime.utcnow()
