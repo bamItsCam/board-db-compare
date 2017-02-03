@@ -2,5 +2,9 @@ from django.conf.urls import url, include
 from . import views
 
 urlpatterns = [
-    url(r'^', views.index, name='index') # The Home page shows up at the default URL (currently http:\\127.0.0.1:8000)
+  # NOTE: the root url (r'^') HAS TO BE LAST in this list or else there is an error where the root url overrides other urls
+    url(r'^contact/', views.contact, name='contact'),
+    url(r'^about/', views.about, name='about'),
+    url(r'^compare/',views.compare,name='compare'),
+    url(r'^', views.select_boards, name='select_boards')
 ]
