@@ -2,5 +2,12 @@
 
 {% block content %}
 <!--TODO: Add Contact form to allow for comments/questions-->
-<p>Contact Page</p>
+<h1>We'd love to hear from you <span class="glyphicon glyphicon-heart"></span></h1>
+<h4>Send us your questions and comments using the form below</h4>
+<br>
+<form role="form" method="POST">{% csrf_token %}
+    {{ form.as_p }}
+    <br>
+    <button type="submit" class="btn btn-primary btn-lg outline">Submit</button>
+</form>
 {% endblock %}

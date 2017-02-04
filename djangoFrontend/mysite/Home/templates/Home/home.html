@@ -2,13 +2,13 @@
 
 {% block content %}
 <h1>Get Started</h1>
-<h4>Hold <kbd>Ctrl+Shift</kbd> to select boards to compare. Use <kbd>Ctrl+Click</kbd> to deselect a board.</h4>
+<h4>Hold <kbd>Ctrl+Shift</kbd> to select up to five boards to compare. Use <kbd>Ctrl+Click</kbd> to deselect a board.</h4>
 <form method="POST">{% csrf_token %}
     {{ form }}
     <br>
     <button type="submit" class="btn btn-primary btn-lg outline">Compare</button>
 </form>
-<br><br>
+<br>
 <!--TODO: Create Compare page, link button to Compare page (after input checks for number of selected boards)-->
 
 {% endblock %}
