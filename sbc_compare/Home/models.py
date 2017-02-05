@@ -60,8 +60,6 @@ class dbBoards(models.Model):
 	ethernet = models.CharField(max_length=100, blank=True)
 	#Wi-Fi
 	wifi = models.CharField(max_length=100, blank=True)
-	#USB OTG
-	usb_otg = models.CharField(max_length=100, blank=True)
 	#Amperage
 	amps = models.CharField(max_length=100, blank=True)
 	#Rating
@@ -82,8 +80,6 @@ class dbBoards(models.Model):
 	model_code = models.CharField(max_length=100, blank=True)
 	#GPIO pins
 	gpio = models.CharField(max_length=100, blank=True)
-	#Board Name
-	board_name = models.CharField(max_length=100,blank=True)
 	#Voltage
 	volts = models.CharField(max_length=100, blank=True)
 	#Size
