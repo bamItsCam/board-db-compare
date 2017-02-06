@@ -16,12 +16,16 @@ def select_boards(request):
 	if request.method == "POST":
 		form = SelectBoards(request.POST)
 		if form.is_valid():
-			#test code that simply prints out a list of the names of the selected devices
-			board_names = []
-			for i in range(0, len((form.cleaned_data['boards']).only('name'))):
-				print form.cleaned_data['boards'].only('name')[i]
-
-			return HttpResponseRedirect('/compare/')
+			form_list = []
+			#form_dict = {}
+			form_data = form.cleaned_data['boards'].values()
+			for item in form_data:
+   				#name = item['name']
+   				#form_dict[name] = item
+   				form_list.append(dict(item))
+   			print form_list
+			#return HttpResponseRedirect('/compare/')
+			return render(request, 'Home/compare.html', {'selected': form_list})
 	return render(request, 'Home/home.html',{'form':form})
 
 def compare(request):

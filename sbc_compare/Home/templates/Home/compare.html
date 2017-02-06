@@ -1,5 +1,228 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>Compare Page</p>
+<h1>Board Comparison</h1>
+<br>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th class='active'>Attributes</th>
+			{% for board in selected %}
+				<th class='active'>{{ board.name }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+ 			<td class='active'>Manufacturer</td>
+ 			{% for board in selected %}
+ 				<td>{{board.manufacturer}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+ 			<td class='active'>Model Code</td>
+ 		 	{% for board in selected %}
+ 				<td>{{board.model_code}}</td>
+ 			{% endfor %}	
+		</tr>
+		<tr>
+			<td class='active'>SoC</td>
+ 			{% for board in selected %}
+ 				<td>{{board.soc}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>CPU</td>
+ 			{% for board in selected %}
+ 				<td>{{board.cpu}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>GPU</td>
+ 			{% for board in selected %}
+ 				<td>{{board.gpu}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>RAM</td>
+ 			{% for board in selected %}
+ 				<td>{{board.ram}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Internal Storage</td>
+ 			{% for board in selected %}
+ 				<td>{{board.storage}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>SD Card</td>
+ 			{% for board in selected %}
+ 				<td>{{board.sd}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>USB Host</td>
+ 			{% for board in selected %}
+ 				<td>{{board.usb}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>USB OTG Port</td>
+ 			{% for board in selected %}
+ 				<td>{{board.usb_otg_port}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Ethernet</td>
+ 			{% for board in selected %}
+ 				<td>{{board.ethernet}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Wake-on-LAN</td>
+ 			{% for board in selected %}
+ 				<td>{{board.wake_on_lan}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>HDMI</td>
+ 			{% for board in selected %}
+ 				<td>{{board.hdmi}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>VGA</td>
+ 			{% for board in selected %}
+ 				<td>{{board.vga}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>GPIO Pins</td>
+ 			{% for board in selected %}
+ 				<td>{{board.gpio}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Composite (CVBS)</td>
+ 			{% for board in selected %}
+ 				<td>{{board.cvbs}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Audio Output</td>
+ 			{% for board in selected %}
+ 				<td>{{board.audio_out}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Audio Input</td>
+ 			{% for board in selected %}
+ 				<td>{{board.audio_in}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>SATA</td>
+ 			{% for board in selected %}
+ 				<td>{{board.sata}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>IR Receiver</td>
+ 			{% for board in selected %}
+ 				<td>{{board.ir}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Wi-Fi</td>
+ 			{% for board in selected %}
+ 				<td>{{board.wifi}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Bluetooth</td>
+ 			{% for board in selected %}
+ 				<td>{{board.bluetooth}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Realtime Clock</td>
+ 			{% for board in selected %}
+ 				<td>{{board.clock}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Other I/O</td>
+ 			{% for board in selected %}
+ 				<td>{{board.other}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Other Interfaces</td>
+ 			{% for board in selected %}
+ 				<td>{{board.interfaces}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Size</td>
+ 			{% for board in selected %}
+ 				<td>{{board.size}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Weight</td>
+ 			{% for board in selected %}
+ 				<td>{{board.weight}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Voltage</td>
+ 			{% for board in selected %}
+ 				<td>{{board.volts}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Amperage</td>
+ 			{% for board in selected %}
+ 				<td>{{board.amps}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Operating Temperature</td>
+ 			{% for board in selected %}
+ 				<td>{{board.temp}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Board Type</td>
+ 			{% for board in selected %}
+ 				<td>{{board.board_type}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Price</td>
+ 			{% for board in selected %}
+ 				<td>{{board.price}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Rating</td>
+ 			{% for board in selected %}
+ 				<td>{{board.rating}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Android Supported</td>
+ 			{% for board in selected %}
+ 				<td>{{board.android}}</td>
+ 			{% endfor %}
+		</tr>
+		<tr>
+			<td class='active'>Windows Supported</td>
+ 			{% for board in selected %}
+ 				<td>{{board.windows}}</td>
+ 			{% endfor %}
+		</tr>
+	</tbody>
+</table>
 {% endblock %}

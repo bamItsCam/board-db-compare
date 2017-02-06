@@ -56,9 +56,8 @@ ROOT_URLCONF = 'sbc_compare.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
+        'DIRS': [os.path.join(BASE_DIR, 'sbc_compare/templates'),
             # Add support for project-based templates
-            os.path.join(BASE_DIR, 'sbc_compare/templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -68,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            #'loaders': ['jinja2_template_loader.Loader',],
         },
     },
 ]
