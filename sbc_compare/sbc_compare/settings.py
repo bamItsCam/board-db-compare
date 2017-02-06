@@ -22,6 +22,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '8xj)(6adtm5zpb1r4gt9ze#zbznktmrl+0)3ssq=q5$!*v#%bv'
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -103,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
