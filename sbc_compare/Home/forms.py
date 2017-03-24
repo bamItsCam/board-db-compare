@@ -7,21 +7,22 @@ class SelectBoards(forms.Form):
 	boards = forms.ModelMultipleChoiceField(queryset=dbBoards.objects.only('name'), 
 											widget=forms.SelectMultiple(attrs={'class':'form-control','style': 'height: 120px;'}),
 											label='')
-	def clean(self):
-		cleaned_data = super(SelectBoards, self).clean()
-		if len(cleaned_data['boards']) > 5:
-		    raise ValidationError("Too many boards selected! Try again.")
+	
+	#ef clean(self):
+	#	cleaned_data = super(SelectBoards, self).clean()
+	#	if len(cleaned_data['boards']) > 5:
+	#	    raise ValidationError("Too many boards selected! Try again.")
         	
 
 class SearchBox(forms.Form):
 	search_input = forms.CharField(
     	required=False,
-    	widget=forms.TextInput(attrs={'class':'form-control', 'id': 'searchInput'}),
+    	widget=forms.TextInput(attrs={'class':'form-control', 'id': 'search_form'}),
     	label="Name"
     	)
 
-	def clean(self):
-		cleaned_data = super(SearchBox, self).clean()
+	#def clean(self):
+	#	cleaned_data = super(SearchBox, self).clean()
 
 class SearchResults(forms.Form):
 	search_output = forms.ModelChoiceField(queryset=dbBoards.objects.none(), 
@@ -30,7 +31,8 @@ class SearchResults(forms.Form):
 											required=False)
 
 	def clean(self):
-		cleaned_data = super(SearchResults, self).clean()
+		if 'add' in self.data:
+			cleaned_data = super(SearchResults, self).clean()
 
 class SearchSelected(forms.Form):
 

@@ -4,13 +4,33 @@
 <h1>Search SBC Compare</h1>
 <h4>Start typing, a list of boards matching what you enter will appear</h4>
 <!--<form method="POST" onkeypress="callSubmit()">{% csrf_token %}-->
-<form method="POST">{% csrf_token %}
+<form id="search_form" method="POST">{% csrf_token %}
     {{ form_box }}
-    {{ form_results }}
     <br>
     <button type="submit" class="btn btn-primary btn-lg outline" id="updateResults">Search</button>
 </form>
-<script>
+<!--<form id="select_form">{% csrf_token %}
+    {{ form_results }}
+    <button type="submit" name="add" class="btn btn-primary btn-lg outline" id="updateResults">Add</button>
+</form>
+-->
+
+<!-- handler for the submission of the search form -->
+<script type="text/javascript">
+    $(document).on('submit', '#search_form', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'post',
+            // data: { search_results: $form.serialize()},
+            data: { search_input: $('#search_form').serialize()},
+            success: function(data) {
+                $("#search_form")[0].reset();
+            }
+        });
+    });
+</script>
+<!--<script>
 function callSubmit() {
 	document.getElementById("updateResults").click()
 }
@@ -33,7 +53,8 @@ function moveCaretToEnd(el) {
     }
 }
 </script>
-<br>
-<!--TODO: Create Compare page, link button to Compare page (after input checks for number of selected boards)-->
+<br>-->
 
 {% endblock %}
+<!--TODO: Create Compare page, link button to Compare page (after input checks for number of selected boards)-->
+

@@ -6,5 +6,6 @@ urlpatterns = [
     url(r'^about', views.about, name='about'),
     url(r'^compare',views.compare,name='compare'),
     url(r'^search', views.search_boards, name='search_boards'),
-    url(r'^', views.select_boards, name="select_boards")
+    url(r'^post',views.post,name="post"),
+    url(r'^', views.select_boards, name="select_boards"),
 ]
