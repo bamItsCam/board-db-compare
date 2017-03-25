@@ -90,3 +90,6 @@ class dbBoards(models.Model):
 	def __str__(self):
 		return self.name
 
+class dbSelectedBoards(models.Model):
+	#Board Name
+	boardName = models.CharField(max_length=100, blank=True)

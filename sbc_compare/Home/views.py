@@ -30,27 +30,15 @@ def select_boards(request):
 	return render(request, 'Home/home.html',{'form':form})
 @csrf_exempt
 def search_boards(request):
-	#if 'search_input' not in request.session:
-	#	request.session['search_input'] = ''
-	#print request.session['search_input']
-	form_box = SearchBox()
-	#form_results = SearchResults()
-	#form_selected = SearchSelected()
-	#if request.method == 'POST':
-		#form_box = SearchBox(request.POST)
-		#form_box.fields['search_input'].attrs = {'class': 'form-control','id': 'searchInput','value': request.session['search_input']}
-		#if form_box.is_valid():
-	#	request.session['search_input'] = request.POST.get('search_input', '') 
-	#	form_results = SearchResults(request.POST)
-	#	form_results.fields['search_output'].queryset = dbBoards.objects.filter(name__contains=request.session['search_input'])
-	#	print "here"
-	#	if form_results.is_valid():
-			#search_output = request.POST.get('search_output', '')
-	#		form_data = form_results.cleaned_data['search_output'].values()
-	#		print "there"
-	# I somehow need to pass a variable from the input into the form, maybe a second form?
-	#return render(request, 'Home/search.html',{'form_box': form_box, 'form_results' : form_results})
-	return render(request, 'Home/search.html',{'form_box': form_box})
+	form_search = SearchBox()
+	form_results = SearchResults()
+	form_selected = SearchSelected()
+
+	if request.method=="POST" and not request.is_ajax():
+		if form_selected.is_valid(): # Compare button
+			render(request, 'Home/compare.html', {'selected_boards': form_selected.cleaned_data[selected_boards]})
+
+	return render(request, 'Home/search.html',{'form_search': form_search, 'form_results' : form_results, 'form_selected': form_selected})
 
 @csrf_exempt
 def post(request):
@@ -62,7 +50,10 @@ def post(request):
 			search_data = str(request.POST.get('search_input'))
 
 			# THERE MUST BE A BETTER WAY TO DO THIS...BUT AT LEAST I HAVE THE DATA
-			print "Search Input: " + search_data.split("search_input=")[1].replace('%20',' ')
+			print "Search Input: " + search_data
+			#print "Search Input: " + search_data.split("search_input=")[1].replace('%20',' ')
+
+			#form_results.fields['search_output'].queryset = dbBoards.objects.filter(name__contains=request.session['search_input'])
 	return HttpResponse('')
 
 def compare(request):

@@ -25,7 +25,7 @@ class SearchBox(forms.Form):
 	#	cleaned_data = super(SearchBox, self).clean()
 
 class SearchResults(forms.Form):
-	search_output = forms.ModelChoiceField(queryset=dbBoards.objects.none(), 
+	search_output = forms.ModelChoiceField(queryset=dbBoards.objects.all(), 
 											widget=forms.SelectMultiple(attrs={'class':'form-control','style': 'height: 240px;'}),
 											label='',
 											required=False)
@@ -35,7 +35,10 @@ class SearchResults(forms.Form):
 			cleaned_data = super(SearchResults, self).clean()
 
 class SearchSelected(forms.Form):
-
+	selected_boards = form.ModelChoiceField(queryset=dbBoards.objects.none(), 
+											widget=forms.SelectMultiple(attrs={'class':'form-control','style': 'height: 240px;'}),
+											label='',
+											required=False)
 
 	def clean(self):
 		cleaned_data = super(SearchSelected, self).clean()
