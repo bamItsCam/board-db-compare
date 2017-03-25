@@ -35,7 +35,7 @@ class SearchResults(forms.Form):
 			cleaned_data = super(SearchResults, self).clean()
 
 class SearchSelected(forms.Form):
-	selected_boards = form.ModelChoiceField(queryset=dbBoards.objects.none(), 
+	selected_boards = forms.ModelChoiceField(queryset=dbBoards.objects.none(), 
 											widget=forms.SelectMultiple(attrs={'class':'form-control','style': 'height: 240px;'}),
 											label='',
 											required=False)
