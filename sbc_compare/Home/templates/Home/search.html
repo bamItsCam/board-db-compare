@@ -32,7 +32,12 @@
             data: { search_input: $('#search_form').serialize()},
             success: function(data) {
                 //$("#search_form")[0].reset();
-                $('#search_results')
+
+                // since find only works on children, make a parent div, then search for 
+                // the id of our new data
+                var result = $('<div />').append(data).find('#search_results').html()
+
+                $('#search_results').html(result)
             }
         });
 

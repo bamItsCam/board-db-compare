@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
+from django.template.loader import render_to_string
+
 from .models import dbBoards
 from .forms import SelectBoards, SearchBox, SearchResults, SearchSelected
 from django.core.management import call_command
@@ -47,13 +49,18 @@ def post(request):
 		if request.is_ajax():
 			print "AJAX Posted!"
 			# grabs the ugly data stream taht is returned from the post
-			search_data = str(request.POST.get('search_input'))
+			search_data = request.POST.get('search_input', '')
 
 			# THERE MUST BE A BETTER WAY TO DO THIS...BUT AT LEAST I HAVE THE DATA
-			print "Search Input: " + search_data
-			#print "Search Input: " + search_data.split("search_input=")[1].replace('%20',' ')
+			#print "Search Input: " + search_data
+			cleaned_search_input = search_data.split("search_input=")[1].replace('%20',' ')
+			print cleaned_search_input
+			form_results = SearchResults()
+			form_results.fields['search_output'].queryset = dbBoards.objects.filter(name__contains=cleaned_search_input)
+			
+			html = render_to_string('Home/search.html', {'form_results': form_results})
 
-			#form_results.fields['search_output'].queryset = dbBoards.objects.filter(name__contains=request.session['search_input'])
+			return HttpResponse(html)
 	return HttpResponse('')
 
 def compare(request):
