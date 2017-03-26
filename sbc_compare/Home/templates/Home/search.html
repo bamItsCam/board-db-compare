@@ -10,12 +10,11 @@
     <button type="submit" class="btn btn-primary btn-lg outline" id="updateResults">Search</button>
 </form>
 
-<form id="search_results">{% csrf_token %}
+<form id="search_results" method="POST">{% csrf_token %}
     {{ form_results }}
-    <button type="submit" name="add" class="btn btn-primary btn-lg outline">Add</button>
 </form>
 
-<form id="selected_boards">{% csrf_token %}
+<form id="selected_boards" method="POST">{% csrf_token %}
     {{ form_selected }}
     <button type="submit" name="add" class="btn btn-primary btn-lg outline">Compare</button>
 </form>
@@ -23,29 +22,50 @@
 
 <!-- handler for the submission of the search form -->
 <script type="text/javascript">
+
+    // Ajax for sending search string to server and receiving updated results list
     $(document).on('submit', '#search_form', function(e){
-        e.preventDefault();
+        //e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: 'post',
+            url: 'search_post',
             // data: { search_results: $form.serialize()},
-            data: { search_input: $('#search_form').serialize()},
+            data: { search_input: $('#search_form').serialize(), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
             success: function(data) {
                 //$("#search_form")[0].reset();
-
+                console.log('hello')
                 // since find only works on children, make a parent div, then search for 
                 // the id of our new data
                 var result = $('<div />').append(data).find('#search_results').html()
-
                 $('#search_results').html(result)
             }
         });
+        return false
+    });
 
-        document.getElementById("search_form").focus()
-        moveCaretToEnd(document.getElementById("search_form"))
+    // Ajax for moving board from search results to compare list
+    $(document).on('change', '#search_results', function(e){
+        //e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'add_post',
+            data: { added_boards: $('#search_results').serialize(), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data) {
+                //$("#search_form")[0].reset();
+                console.log('hello')
+                // update the search results by removing the added_board from the list
+                var result = $('<div />').append(data).find('#search_results').html()
+                $('#search_results').html(result)
+
+                // update the selected boards list with the newly selected board
+                var result = $('<div />').append(data).find('#selected_boards').html()
+                $('#selected_boards').html(result)
+            }
+        });
+        return false
     });
 </script>
-<script>
+<!--<script>
     //function callSubmit() {
     //	document.getElementById("updateResults").click()
     //}
@@ -67,7 +87,7 @@
             range.select();
         }
     }
-</script>
+</script>-->
 <br>
 
 {% endblock %}
