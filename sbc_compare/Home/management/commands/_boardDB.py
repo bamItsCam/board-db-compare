@@ -14,7 +14,6 @@ class boardDB(object):
     
     # Public
     def __init__(self):
-        print "init"
         self.productNamesCache = defaultdict(dict)
         self.productCache = defaultdict(dict)
         self.previousCacheTimestamp = None
@@ -52,7 +51,7 @@ class boardDB(object):
         # cache already exists: check if outdated w/ timestamp comp
         else:
             timeSinceLastCacheUpdate = currentTimestamp - self.previousCacheTimestamp
-            print "Time since last cache update: " + str(timeSinceLastCacheUpdate)
+            #print "Time since last cache update: " + str(timeSinceLastCacheUpdate)
             
             if( timeSinceLastCacheUpdate.total_seconds() > self.CACHE_CHECK_PERIOD_HRS * 3600 ):
                 self._updateProductCache()
@@ -60,7 +59,6 @@ class boardDB(object):
         return self.productCache
     
     def _updateProductCache(self):
-        print "updateproductCache"
         self.productCache = self._getProductsSource()
         self.previousCacheTimestamp = datetime.utcnow()
     
@@ -84,7 +82,6 @@ class boardDB(object):
         return attribDict
 
     def _getProductsSource(self):
-        print "getProductsSource"
         # Some product pages are removed, resulting in empty project pages. This bool addresses that issue
         isValidProductNumber = True
         allProductsDictionary = defaultdict(dict)
@@ -103,6 +100,7 @@ class boardDB(object):
             if( productName.lower() == 'Invalid board ID specified'.lower() ):
                 isValidProductNumber = False
             else:
+                print "Getting " + productName + " info"
                 isValidProductNumber = True #if a board exists beyond the HIGHEST_KNOWN_PRODUCT_NUMBER, this allows for including it
                 
                 # Now get the board attribute types and data

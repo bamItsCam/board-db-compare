@@ -1,0 +1,17 @@
+## Building the image and running the container
+
+# Get the dockerfile, place it in a dir, run
+docker build -t sbc-compare .
+
+# Run the docker image in a container
+docker run sbc-compare
+
+
+## Docker Cleanup
+
+#Stop all docker containers
+docker rm $(docker ps -aq)
+
+# Remove all old docker images
+docker rmi $(docker images | grep '<none>' | awk
+ '{print $3}')
