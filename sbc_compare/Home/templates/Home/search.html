@@ -1,25 +1,59 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Search SBC Compare</h1>
-<h4>Start typing, a list of boards matching what you enter will appear</h4>
+<center>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Search SBC Compare</h1>
+<!--       <h4>Start typing, a list of boards matching what you enter will appear</h4>-->
+        <h4>Search for boards below. Select ones that you would like to compare!</h4>
+    </div>
+</div>
+</center>
 <!--<form method="POST" onkeypress="callSubmit()">{% csrf_token %}-->
-<form id="search_form" method="POST">{% csrf_token %}
-    {{ form_search }}
-    <br>
-    <button type="submit" class="btn btn-primary btn-lg outline" id="updateResults">Search</button>
-</form>
-
-<form id="search_results" method="POST">{% csrf_token %}
-    {{ form_results }}
-</form>
-
-<form id="selected_boards" method="POST">{% csrf_token %}
-    {{ form_selected }}
-    <button type="submit" name="add" class="btn btn-primary btn-lg outline">Compare</button>
-</form>
-
-
+<div class="row">
+    <div class="col-md-12">
+        <form id="search_form" method="POST">{% csrf_token %}
+            <!--<div style="float: left; width:600px;">-->
+            <div class="row">
+                <div class="col-md-11">
+                    {{ form_search }}
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary btn-xs outline" id="updateResults"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6" style="text-align: center;">
+        <h3>Search Results</h3>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+        <h3>Selected Boards</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-control" style="height: 200px;">
+            <form id="search_results" method="POST">{% csrf_token %}
+                {{ form_results }}
+            </form>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <form id="selected_boards" method="POST">{% csrf_token %}
+            {{ form_selected }}
+        </form>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12" style="text-align: center;">
+        <button type="submit" form="selected_boards" name="add" class="btn btn-primary btn-lg outline">Compare</button>
+    </div>
+</div>
 <!-- handler for the submission of the search form -->
 <script type="text/javascript">
 

@@ -17,8 +17,8 @@ class SelectBoards(forms.Form):
 class SearchBox(forms.Form):
 	search_input = forms.CharField(
     	required=False,
-    	widget=forms.TextInput(attrs={'class':'form-control', 'id': 'search_form'}),
-    	label="Name"
+    	widget=forms.TextInput(attrs={'class':'form-control', 'id': 'search_form', 'placeholder': 'SEARCH'}),
+    	label='',
     	)
 
 	#def clean(self):
@@ -39,7 +39,7 @@ class SearchResults(forms.Form):
 class SearchSelected(forms.Form):
 	selected_boards = forms.ModelChoiceField(
 		queryset=dbBoards.objects.none(), 
-		widget=forms.SelectMultiple(attrs={'class':'form-control','style': 'height: 240px;'}),
+		widget=forms.SelectMultiple(attrs={'class': 'form-control','style': 'height: 200px;'}),
 		label='',
 		required=False)
 

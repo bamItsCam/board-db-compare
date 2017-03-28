@@ -4,7 +4,6 @@ from django.db import models
 
 #The dbBoard model defines a table that stores the attribute data gathered using the boardDB.getAttributes() method
 #Current migration: 5, 2/3/17
-#TODO: Resolve seemingly duplicate column names
 class dbBoards(models.Model):
 	#Board Name
 	name = models.CharField(max_length=100, blank=True)
