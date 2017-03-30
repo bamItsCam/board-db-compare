@@ -5,12 +5,10 @@
 <div class="row">
     <div class="col-md-12">
         <h1>Search SBC Compare</h1>
-<!--       <h4>Start typing, a list of boards matching what you enter will appear</h4>-->
         <h4>Search for boards below. Select ones that you would like to compare!</h4>
     </div>
 </div>
 </center>
-<!--<form method="POST" onkeypress="callSubmit()">{% csrf_token %}-->
 <div class="row">
     <div class="col-md-12">
         <form id="search_form" method="POST">{% csrf_token %}
@@ -22,6 +20,9 @@
                 <div class="col-md-1">
                     <button type="submit" class="btn btn-primary btn-xs outline" id="updateResults"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
+            </div>
+            <div class="col-md-11">
+                <p>{{ search_count }}</p>
             </div>
         </form>
     </div>
@@ -51,7 +52,10 @@
 <br>
 <div class="row">
     <div class="col-md-12" style="text-align: center;">
-        <button type="submit" form="selected_boards" name="add" class="btn btn-primary btn-lg outline">Compare</button>
+        <span>
+            <button type="submit" form="search_results" name="reset" class="btn btn-primary btn-lg outline">Reset</button>
+            <button type="submit" form="search_results" name="compare" class="btn btn-primary btn-lg outline">Compare</button>
+        </span>
     </div>
 </div>
 <!-- handler for the submission of the search form -->
@@ -66,7 +70,6 @@
             // data: { search_results: $form.serialize()},
             data: { search_input: $('#search_form').serialize(), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
             success: function(data) {
-                //$("#search_form")[0].reset();
                 console.log('hello')
                 // since find only works on children, make a parent div, then search for 
                 // the id of our new data
@@ -85,12 +88,7 @@
             url: 'add_post',
             data: { added_boards: $('#search_results').serialize(), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
             success: function(data) {
-                //$("#search_form")[0].reset();
                 console.log('hello')
-                // update the search results by removing the added_board from the list
-                var result = $('<div />').append(data).find('#search_results').html()
-                $('#search_results').html(result)
-
                 // update the selected boards list with the newly selected board
                 var result = $('<div />').append(data).find('#selected_boards').html()
                 $('#selected_boards').html(result)
