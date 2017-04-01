@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from django.db.models import Q
+from django.shortcuts import redirect
 
 from .models import dbBoards
 from .forms import SelectBoards, SearchBox, SearchResults, SearchSelected
@@ -41,10 +42,13 @@ def search_boards(request):
 
 	# compare button check
 	if request.method=="POST" and "compare" in request.POST:
+		print "here"
 		form_results = SearchResults(request.POST)
 		if form_results.is_valid(): # Compare button
-			return render(request, 'Home/compare.html', {'selected': form_results.cleaned_data['search_output']})
-
+			request.session['selected'] = list(form_results.cleaned_data['search_output'].values())
+			print "*"
+			print request.session['selected'] 
+			return redirect('/compare')
 	# Reset button check
 	elif request.method=="POST" and "reset" in request.POST:
 		# clear session vals
@@ -143,4 +147,6 @@ def add_post(request):
 
 
 def compare(request):
-	return render(request,'Home/compare.html')
+	selected = request.session['selected']
+	print selected
+	return render(request,'Home/compare.html',{'selected' : selected})
