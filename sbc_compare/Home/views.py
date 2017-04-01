@@ -54,7 +54,8 @@ def search_boards(request):
 		# clear session vals
 		request.session['latest_search'] = ''
 		request.session['all_selected_board_ids'] = ''
-
+		print "reset hit"
+		return redirect('/search')
 
 	# allow the user to come back to what they were doing, even after a refresh
 	# therefore repopulate the forms with session data
