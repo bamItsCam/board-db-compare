@@ -18,10 +18,10 @@
                     {{ form_search }}
                 </div>
                 <div class="col-md-1">
-                    <button type="submit" class="btn btn-primary btn-xs outline" id="updateResults"><span class="glyphicon glyphicon-search"></span></button>
+                    <button type="submit" class="btn btn-primary btn-xs outline" id="updateResults" style="width: 100px;"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
             </div>
-            <div class="col-md-11">
+            <div class="col-md-12">
                 <p>{{ search_count }}</p>
             </div>
         </form>
@@ -44,17 +44,19 @@
         </div>
     </div>
     <div class="col-md-6">
-        <form id="selected_boards" method="POST">{% csrf_token %}
-            {{ form_selected }}
-        </form>
+        <div class="form-control" style="height: 200px;">
+            <form id="selected_boards" method="POST">{% csrf_token %}
+                {{ form_selected }}
+            </form>
+        </div>
     </div>
 </div>
 <br>
 <div class="row">
     <div class="col-md-12" style="text-align: center;">
         <span>
-            <button type="submit" form="search_results" name="reset" class="btn btn-primary btn-lg outline">Reset</button>
-            <button type="submit" form="search_results" name="compare" class="btn btn-primary btn-lg outline">Compare</button>
+            <button type="submit" form="search_results" name="reset" class="btn btn-primary btn-lg outline" style="width: 200px;">Reset</button>
+            <button type="submit" form="search_results" name="compare" class="btn btn-primary btn-lg outline" style="width: 200px;">Compare</button>
         </span>
     </div>
 </div>

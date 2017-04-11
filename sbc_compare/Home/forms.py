@@ -39,7 +39,7 @@ class SearchResults(forms.Form):
 class SearchSelected(forms.Form):
 	selected_boards = forms.ModelChoiceField(
 		queryset=dbBoards.objects.none(), 
-		widget=forms.SelectMultiple(attrs={'class': 'form-control','style': 'height: 200px;'}),
+		widget=forms.CheckboxSelectMultiple(attrs={'class': 'height: 15px;'}),
 		label='',
 		required=False)
 
