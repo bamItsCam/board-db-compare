@@ -132,6 +132,6 @@ STATICFILES_DIRS = [
 # Email server for contact page
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'sbccompare@gmail.com'
-EMAIL_HOST_PASSWORD = 'lxiiCzrIXqc7chqronJM'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
