@@ -123,7 +123,10 @@ def add_post(request):
 
 		# grabs the ids of all the boards to be added to the compare list
 		added_boards_raw = request.POST.get('added_boards', '')
-		added_boards_ids = added_boards_raw.replace('&', '').split('search_output=')
+		if 'search_output=' in added_boards_raw:
+			added_boards_ids = added_boards_raw.replace('&', '').split('search_output=')
+		else:
+			added_boards_ids = added_boards_raw.replace('&', '').split('selected_boards=')
 
 		# get rid of empty element
 		added_boards_ids.pop(0)

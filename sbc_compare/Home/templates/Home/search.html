@@ -98,6 +98,25 @@
         });
         return false
     });
+
+    // Ajax for moving board from search results to compare list
+    $(document).on('change', '#selected_boards', function(e){
+        //e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'add_post',
+            data: { added_boards: $('#selected_boards').serialize(), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function(data) {
+                console.log('hello')
+                // update the selected boards list with the newly selected board
+                var result = $('<div />').append(data).find('#search_results').html()
+                $('#search_results').html(result)
+                var result2 = $('<div />').append(data).find('#selected_boards').html()
+                $('#selected_boards').html(result2)
+            }
+        });
+        return false
+    });
 </script>
 <!--<script>
     //function callSubmit() {
