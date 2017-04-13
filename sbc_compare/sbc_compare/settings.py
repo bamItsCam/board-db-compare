@@ -130,9 +130,8 @@ STATICFILES_DIRS = [
 ]
 
 # Email server for contact page
-EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend' 
-DEFAULT_FROM_EMAIL = 'abigailliff@gmail.com'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False 
-EMAIL_PORT = 1025
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'sbccompare@gmail.com'
+EMAIL_HOST_PASSWORD = 'lxiiCzrIXqc7chqronJM'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

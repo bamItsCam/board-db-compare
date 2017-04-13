@@ -25,7 +25,7 @@ def contact(request):
 			context = Context({'contact_name': contact_name,'contact_email': contact_email,'form_content': form_content,})
 			content = template.render(context)
 
-			email = EmailMessage("New contact form submission",content,"Your website" +'',['youremail@gmail.com'],headers = {'Reply-To': contact_email })
+			email = EmailMessage("New contact form submission",content,contact_name + '',['sbccompare@gmail.com'],headers = {'Reply-To': contact_email })
 			email.send()
 			return redirect('contact')
 
