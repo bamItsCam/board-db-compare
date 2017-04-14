@@ -154,5 +154,17 @@ def add_post(request):
 
 def compare(request):
 	selected = request.session['selected']
-	print selected
+	for i in range(0,len(selected)):
+		for item in selected[i]:
+			if('unicode' in str(type(selected[i][item]))):
+				selected[i][item] = (selected[i][item]).replace(u'\ufffd','')
+				selected[i][item] = str((selected[i][item]).encode("utf-8")).replace(';','<br />')
+			elif('int' in str(type(selected[i][item]))):
+				selected[i][item] = str(selected[i][item]).replace(';','<br />')
+			selected[i][item] = (selected[i][item]).replace(':<br />',': ').replace(' , ',' ')
+			selected[i][item] = (selected[i][item]).replace('None','<span class="glyphicon glyphicon-remove"></span>')
+			selected[i][item] = (selected[i][item]).replace('No','<span class="glyphicon glyphicon-remove"></span>')
+			selected[i][item] = (selected[i][item]).replace('Yes','<span class="glyphicon glyphicon-ok"></span>')
+			selected[i][item] = (selected[i][item]).replace('?','N/A')
+			# print selected[i][item]
 	return render(request,'Home/compare.html',{'selected' : selected})

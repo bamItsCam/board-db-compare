@@ -3,7 +3,8 @@
 {% block content %}
 <h1>Board Comparison</h1>
 <br>
-<table class="table table-bordered">
+<table class="table table-bordered" >
+{% autoescape off %}
 	<thead>
 		<tr>
 			<th class='active'>Attributes</th>
@@ -224,5 +225,6 @@
  			{% endfor %}
 		</tr>
 	</tbody>
+{% endautoescape %}
 </table>
 {% endblock %}
