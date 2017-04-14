@@ -27,7 +27,7 @@ class SearchBox(forms.Form):
 class SearchResults(forms.Form):
 	search_output = forms.ModelMultipleChoiceField(
 		queryset=dbBoards.objects.all(), 
-		widget=forms.CheckboxSelectMultiple(attrs={'style': 'height: 15px;'}),
+		widget=forms.CheckboxSelectMultiple(attrs={'class': 'glyphicon glyphicon-unchecked'}),
 		initial=[],
 		label='',
 		required=False)
@@ -39,7 +39,7 @@ class SearchResults(forms.Form):
 class SearchSelected(forms.Form):
 	selected_boards = forms.ModelChoiceField(
 		queryset=dbBoards.objects.none(), 
-		widget=forms.CheckboxSelectMultiple(attrs={'class': 'height: 15px;'}),
+		widget=forms.CheckboxSelectMultiple(attrs={'class': 'glyphicon glyphicon-check'}),
 		label='',
 		required=False)
 

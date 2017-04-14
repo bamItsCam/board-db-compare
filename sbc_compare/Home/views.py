@@ -17,21 +17,16 @@ def about(request):
 	return render(request,'Home/about.html')
 
 #Displays the SelectBoards form and allows the user to select boards. 
-#TODO: Add code for fetching and processing attribute sets, figure out how to send the attribute sets to the compare page
 def select_boards(request):
 	form = SelectBoards()
 	if request.method == "POST":
 		form = SelectBoards(request.POST)
 		if form.is_valid():
 			form_list = []
-			#form_dict = {}
 			form_data = form.cleaned_data['boards'].values()
 			for item in form_data:
-   				#name = item['name']
-   				#form_dict[name] = item
    				form_list.append(dict(item))
    			print form_list
-			#return HttpResponseRedirect('/compare/')
 			return render(request, 'Home/compare.html', {'selected': form_list})
 	return render(request, 'Home/home.html',{'form':form})
 
@@ -86,8 +81,6 @@ def search_post(request):
 		# grabs the ugly data stream taht is returned from the post
 		search_data = request.POST.get('search_input', '')
 
-		# THERE MUST BE A BETTER WAY TO DO THIS...BUT AT LEAST I HAVE THE DATA
-		#print "Search Input: " + search_data
 		if 'latest_search' not in request.session:
 			request.session['latest_search'] = ''
 		request.session['latest_search'] = search_data.split("search_input=")[1].replace('%20',' ')
