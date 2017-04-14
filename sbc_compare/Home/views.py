@@ -74,6 +74,8 @@ def search_boards(request):
 
 	# Make the SearchSelected form what it was before a refresh
 	form_selected.fields['selected_boards'].queryset = dbBoards.objects.filter(pk__in=request.session['all_selected_board_ids'])
+	form_selected.fields['selected_boards'].initial = request.session['all_selected_board_ids']
+
 	form_selected.fields['selected_boards'].empty_label=None
 	return render(request, 'Home/search.html',{'form_search': form_search, 'form_results' : form_results, 'form_selected': form_selected})
 
