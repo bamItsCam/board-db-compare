@@ -9,7 +9,6 @@ from django.shortcuts import redirect
 from .models import dbBoards
 from .forms import SelectBoards, SearchBox, SearchResults, SearchSelected
 from django.core.management import call_command
-from django.views.decorators.csrf import csrf_exempt
 
 #call_command('populate_db') This currently takes a lot of time...I think it should only be run once a week or something
 
@@ -98,8 +97,10 @@ def search_post(request):
 		count = dbBoards.objects.filter(name__contains=request.session['latest_search']).count()
 		if count == 0:
 			search_count = 'No boards found!'
+		elif count == 1:
+			search_count = '1 board was found'
 		else:
-			search_count = '%d boards were found.' %(count)
+			search_count = '%d boards were found' %(count)
 		print search_count		
 		return TemplateResponse(request, 'Home/search.html', {'form_results': form_results, 'search_count': search_count})
 	return HttpResponse('')

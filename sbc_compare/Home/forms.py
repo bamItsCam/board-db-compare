@@ -39,7 +39,7 @@ class SearchResults(forms.Form):
 class SearchSelected(forms.Form):
 	selected_boards = forms.ModelChoiceField(
 		queryset=dbBoards.objects.none(), 
-		widget=forms.CheckboxSelectMultiple(attrs={'class': 'glyphicon glyphicon-check'}),
+		widget=forms.CheckboxSelectMultiple(attrs={'class': 'glyphicon glyphicon-remove'}),
 		label='',
 		required=False)
 

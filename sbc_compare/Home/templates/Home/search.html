@@ -21,10 +21,12 @@
                     <button type="submit" class="btn btn-primary btn-xs outline" id="updateResults" style="width: 100px;"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
             </div>
-            <div class="col-md-12">
-                <p>{{ search_count }}</p>
-            </div>
         </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12" id="search_count">
+        <p>{{ search_count }}</p>
     </div>
 </div>
 <div class="row">
@@ -77,7 +79,8 @@
                 // the id of our new data
                 var result = $('<div />').append(data).find('#search_results').html()
                 $('#search_results').html(result)
-            }
+                var result2 = $('<div />').append(data).find('#search_count').html()
+                $('#search_count').html(result2)            }
         });
         return false
     });
