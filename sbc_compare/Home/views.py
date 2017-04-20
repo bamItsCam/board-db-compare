@@ -11,7 +11,7 @@ from .forms import SelectBoards, SearchBox, SearchResults, SearchSelected
 from django.core.management import call_command
 
 #call_command('populate_db') This currently takes a lot of time...I think it should only be run once a week or something
-
+#TODO: logging, with an ip address of the user (django-ipware)
 def about(request):
 	return render(request,'Home/about.html')
 
@@ -33,112 +33,89 @@ def search_boards(request):
 	form_search = SearchBox()
 	form_results = SearchResults()
 	form_selected = SearchSelected()
-	form_selected.fields['selected_boards'].empty_label=None
 
 	# compare button check
 	if request.method=="POST" and "compare" in request.POST:
-		print "here"
-		form_results = SearchResults(request.POST)
-		if form_results.is_valid(): # Compare button
-			request.session['selected'] = list(form_results.cleaned_data['search_output'].values())
-			print "*"
-			print request.session['selected'] 
-			return redirect('/compare')
+		return _compare_button_press(request)
 	# Reset button check
 	elif request.method=="POST" and "reset" in request.POST:
-		# clear session vals
-		request.session['latest_search'] = ''
-		request.session['all_selected_board_ids'] = ''
-		print "reset hit"
-		return redirect('/search')
+		return _reset_button_press(request)
 
 	# allow the user to come back to what they were doing, even after a refresh
-	# therefore repopulate the forms with session data
-	if 'latest_search' not in request.session:
-			request.session['latest_search'] = ''
-	form_search.fields['search_input'].initial = request.session['latest_search']
-	print "Search: " + request.session['latest_search']
-
-	if 'all_selected_board_ids' not in request.session:
-		request.session['all_selected_board_ids'] = '' 
-
-	# Make the SearchResults form what it was before a refresh
+	# therefore update the forms with session data
+	form_search.fields['search_input'].initial = request.session.get('latest_search', '')
 	form_results = _update_results_form(request)
-
-	# Make the SearchSelected form what it was before a refresh
 	form_selected = _update_selected_form(request)
 	
 	return render(request, 'Home/search.html',{'form_search': form_search, 'form_results' : form_results, 'form_selected': form_selected})
 
 def search_post(request):
-	# This is where the ajax request should redirect for the submission of the SearchBox form...
 	if request.method=="POST" and request.is_ajax():
 		print "AJAX Search!"
-		# grabs the ugly data stream taht is returned from the post
-		search_data = request.POST.get('search_input', '')
 
-		if 'latest_search' not in request.session:
-			request.session['latest_search'] = ''
-		request.session['latest_search'] = search_data.split("search_input=")[1].replace('%20',' ')
-
-		if 'all_selected_board_ids' not in request.session:
-			request.session['all_selected_board_ids'] = ''
-
-		# Update Search Results
+		# parse the ugly data stream that is returned from the post
+		request.session['latest_search'] = request.POST.get('search_input', '').split("search_input=")[1].replace('%20',' ')
+		
+		# Update forms and other template content
 		form_results = _update_results_form(request)
+		search_count = _count_search_results(request)
 
-		# Check and alert if the search returned no results found
-		count = dbBoards.objects.filter(name__contains=request.session['latest_search']).count()
-		if count == 0:
-			search_count = 'No boards found!'
-		elif count == 1:
-			search_count = '1 board was found'
-		else:
-			search_count = '%d boards were found' %(count)
-		print search_count		
 		return TemplateResponse(request, 'Home/search.html', {'form_results': form_results, 'search_count': search_count})
 	return HttpResponse('')
 
 def add_post(request):
-	#TODO: clear latest search session on refresh
-	#TODO: if query returns no results, say "no results found"
-
-	# This is where the ajax request should redirect for the submission of the SearchBox form...
 	if request.method=="POST" and request.is_ajax():
 		print "AJAX Add!"
-		
-		# In order to update the search results and remove the chosen board, we need the original search string from the session
-		if 'latest_search' not in request.session:
-			request.session['latest_search'] = ''
 
 		# grabs the ids of all the boards to be added to the compare list
-		added_boards_raw = request.POST.get('added_boards', '')
-		if 'search_output=' in added_boards_raw:
-			added_boards_ids = added_boards_raw.replace('&', '').split('search_output=')
-		else:
-			added_boards_ids = added_boards_raw.replace('&', '').split('selected_boards=')
+		request.session['all_selected_board_ids'] = _clean_added_boards_string(request.POST.get('added_boards', ''))
 
-		# get rid of empty element
-		added_boards_ids.pop(0)
-
-		# use sessions to keep track of all selected boards
-		if 'all_selected_board_ids' not in request.session:
-			request.session['all_selected_board_ids'] = ''
-
-		request.session['all_selected_board_ids'] = added_boards_ids 
-
-		# Update Search Results
+		# Update forms
 		form_results = _update_results_form(request)
-
 		form_selected = _update_selected_form(request)
+
 		return TemplateResponse(request, 'Home/search.html', {'form_results': form_results, 'form_selected': form_selected})
 	return HttpResponse('')
 
-
 def compare(request):
-	selected = _reformat_board_attributes(request.session['selected'])
+	selected = _reformat_board_attributes(request.session.get('selected', ''))
 
 	return render(request,'Home/compare.html',{'selected' : selected})
+
+# "Private" functions
+def _compare_button_press(request):
+	form_results = SearchResults(request.POST)
+	if form_results.is_valid(): # Compare button
+		request.session['selected'] = list(form_results.cleaned_data['search_output'].values())
+		print "compare hit"
+		return redirect('/compare')
+
+def _reset_button_press(request):
+	# clear session vals
+	request.session['latest_search'] = ''
+	request.session['all_selected_board_ids'] = ''
+	print "reset hit"
+	return redirect('/search')
+
+def _count_search_results(request):
+	count = dbBoards.objects.filter(name__contains=request.session.get('latest_search', '')).count()
+	if count == 0:
+		return 'No boards found!'
+	elif count == 1:
+		return '1 board was found'
+	else:
+		return '%d boards were found' %(count)
+
+def _clean_added_boards_string(rawString):
+	if 'search_output=' in rawString:
+		cleanString = rawString.replace('&', '').split('search_output=')
+	else:
+		cleanString = rawString.replace('&', '').split('selected_boards=')
+
+	# get rid of empty element
+	cleanString.pop(0)
+
+	return cleanString 
 
 def _reformat_board_attributes(thisSelected):
 	for i in range(0,len(thisSelected)):
@@ -158,8 +135,8 @@ def _reformat_board_attributes(thisSelected):
 
 def _update_selected_form(request):
 	thisForm = SearchSelected()
-	thisForm.fields['selected_boards'].queryset = dbBoards.objects.filter(pk__in=request.session['all_selected_board_ids'])
-	thisForm.fields['selected_boards'].initial = request.session['all_selected_board_ids']
+	thisForm.fields['selected_boards'].queryset = dbBoards.objects.filter(pk__in=request.session.get('all_selected_board_ids', ''))
+	thisForm.fields['selected_boards'].initial = request.session.get('all_selected_board_ids', '')
 
 	thisForm.fields['selected_boards'].empty_label=None
 
@@ -167,7 +144,7 @@ def _update_selected_form(request):
 
 def _update_results_form(request):
 	thisForm = SearchResults()
-	thisForm.fields['search_output'].queryset = dbBoards.objects.filter( Q(name__contains=request.session['latest_search']) | Q(pk__in=request.session['all_selected_board_ids']) )
-	thisForm.fields['search_output'].initial = request.session['all_selected_board_ids']
+	thisForm.fields['search_output'].queryset = dbBoards.objects.filter(Q(name__contains=request.session.get('latest_search', '')) | Q(pk__in=request.session.get('all_selected_board_ids', '')))
+	thisForm.fields['search_output'].initial = request.session.get('all_selected_board_ids', '')
 	thisForm.fields['search_output'].empty_label=None
 	return thisForm
