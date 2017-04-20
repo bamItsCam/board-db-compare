@@ -63,14 +63,11 @@ def search_boards(request):
 		request.session['all_selected_board_ids'] = '' 
 
 	# Make the SearchResults form what it was before a refresh
-	form_results.fields['search_output'].queryset = dbBoards.objects.filter( Q(name__contains=request.session['latest_search']) | Q(pk__in=request.session['all_selected_board_ids']) )
-	form_results.fields['search_output'].initial = request.session['all_selected_board_ids']
+	form_results = _update_results_form(request)
 
 	# Make the SearchSelected form what it was before a refresh
-	form_selected.fields['selected_boards'].queryset = dbBoards.objects.filter(pk__in=request.session['all_selected_board_ids'])
-	form_selected.fields['selected_boards'].initial = request.session['all_selected_board_ids']
-
-	form_selected.fields['selected_boards'].empty_label=None
+	form_selected = _update_selected_form(request)
+	
 	return render(request, 'Home/search.html',{'form_search': form_search, 'form_results' : form_results, 'form_selected': form_selected})
 
 def search_post(request):
@@ -87,11 +84,8 @@ def search_post(request):
 		if 'all_selected_board_ids' not in request.session:
 			request.session['all_selected_board_ids'] = ''
 
-		# Lets make a new SearchResults form, and we'll replace the old with this one with an updated queryset
-		form_results = SearchResults()
-
-		form_results.fields['search_output'].queryset = dbBoards.objects.filter( Q(name__contains=request.session['latest_search']) | Q(pk__in=request.session['all_selected_board_ids']) )
-		form_results.fields['search_output'].initial = request.session['all_selected_board_ids']
+		# Update Search Results
+		form_results = _update_results_form(request)
 
 		# Check and alert if the search returned no results found
 		count = dbBoards.objects.filter(name__contains=request.session['latest_search']).count()
@@ -133,34 +127,47 @@ def add_post(request):
 
 		request.session['all_selected_board_ids'] = added_boards_ids 
 
-		# Lets make a new SearchResults form, and we'll replace the old with this one with an updated queryset
-		form_results = SearchResults()
+		# Update Search Results
+		form_results = _update_results_form(request)
 
-		form_results.fields['search_output'].queryset = dbBoards.objects.filter( Q(name__contains=request.session['latest_search']) | Q(pk__in=request.session['all_selected_board_ids']) )
-		form_results.fields['search_output'].initial = request.session['all_selected_board_ids']
-
-		# Lets make a new SearchSelected form, and we'll replace the old with this one with an updated queryset
-		form_selected = SearchSelected()
-		form_selected.fields['selected_boards'].queryset = dbBoards.objects.filter(pk__in=request.session['all_selected_board_ids'])
-		form_selected.fields['selected_boards'].initial = request.session['all_selected_board_ids']
-		form_selected.fields['selected_boards'].empty_label=None
+		form_selected = _update_selected_form(request)
 		return TemplateResponse(request, 'Home/search.html', {'form_results': form_results, 'form_selected': form_selected})
 	return HttpResponse('')
 
 
 def compare(request):
-	selected = request.session['selected']
-	for i in range(0,len(selected)):
-		for item in selected[i]:
-			if('unicode' in str(type(selected[i][item]))):
-				selected[i][item] = (selected[i][item]).replace(u'\ufffd','')
-				selected[i][item] = str((selected[i][item]).encode("utf-8")).replace(';','<br />')
-			elif('int' in str(type(selected[i][item]))):
-				selected[i][item] = str(selected[i][item]).replace(';','<br />')
-			selected[i][item] = (selected[i][item]).replace(':<br />',': ').replace(' , ',' ')
-			selected[i][item] = (selected[i][item]).replace('None','<span class="glyphicon glyphicon-remove"></span>')
-			selected[i][item] = (selected[i][item]).replace('No','<span class="glyphicon glyphicon-remove"></span>')
-			selected[i][item] = (selected[i][item]).replace('Yes','<span class="glyphicon glyphicon-ok"></span>')
-			selected[i][item] = (selected[i][item]).replace('?','N/A')
-			# print selected[i][item]
+	selected = _reformat_board_attributes(request.session['selected'])
+
 	return render(request,'Home/compare.html',{'selected' : selected})
+
+def _reformat_board_attributes(thisSelected):
+	for i in range(0,len(thisSelected)):
+		for item in thisSelected[i]:
+			if('unicode' in str(type(thisSelected[i][item]))):
+				thisSelected[i][item] = (thisSelected[i][item]).replace(u'\ufffd','')
+				thisSelected[i][item] = str((thisSelected[i][item]).encode("utf-8")).replace(';','<br />')
+			elif('int' in str(type(thisSelected[i][item]))):
+				thisSelected[i][item] = str(thisSelected[i][item]).replace(';','<br />') \
+										.replace(':<br />',': ').replace(' , ',' ') \
+										.replace('False-uid=jetfuelcantmeltsteelbeams','<span class="glyphicon glyphicon-remove"></span>') \
+										.replace('False-uid=jetfuelcantmeltsteelbeams','<span class="glyphicon glyphicon-remove"></span>') \
+										.replace('True-uid=jetfuelcantmeltsteelbeams','<span class="glyphicon glyphicon-ok"></span>') \
+										.replace('Unknown-uid=jetfuelcantmeltsteelbeams','Unknown') \
+										.replace('?','N/A')
+	return thisSelected
+
+def _update_selected_form(request):
+	thisForm = SearchSelected()
+	thisForm.fields['selected_boards'].queryset = dbBoards.objects.filter(pk__in=request.session['all_selected_board_ids'])
+	thisForm.fields['selected_boards'].initial = request.session['all_selected_board_ids']
+
+	thisForm.fields['selected_boards'].empty_label=None
+
+	return thisForm
+
+def _update_results_form(request):
+	thisForm = SearchResults()
+	thisForm.fields['search_output'].queryset = dbBoards.objects.filter( Q(name__contains=request.session['latest_search']) | Q(pk__in=request.session['all_selected_board_ids']) )
+	thisForm.fields['search_output'].initial = request.session['all_selected_board_ids']
+	thisForm.fields['search_output'].empty_label=None
+	return thisForm

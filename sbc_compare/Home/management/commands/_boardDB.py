@@ -120,7 +120,13 @@ class boardDB(object):
                     currentAttribute =  htmlTree.xpath(u'//div[@class="table-responsive"]/table/tbody/tr[$row]/td[2]//text() | //div[@class="table-responsive"]/table/tbody/tr[$row]/td[2]/span/@class', row=rowNumber)
                     
                     # this is disgusting, don't do this
-                    currentAttribute = [entry.strip().replace('Not supported', '').replace('Supported', '').replace('glyphicon glyphicon-remove icon-cell', 'No').replace('glyphicon glyphicon-ok icon-cell', 'Yes').replace('icon-cell', 'Unknown') for entry in currentAttribute]
+                    currentAttribute = [entry.strip() \
+                                            .replace('Not supported', '') \
+                                            .replace('Supported', '') \
+                                            .replace('glyphicon glyphicon-remove icon-cell', 'False-uid=jetfuelcantmeltsteelbeams') \
+                                            .replace('glyphicon glyphicon-ok icon-cell', 'True-uid=jetfuelcantmeltsteelbeams') \
+                                            .replace('icon-cell', 'Unknown-uid=jetfuelcantmeltsteelbeams') \
+                                        for entry in currentAttribute]
                     
                     # get rid of empty entries due to above filtering
                     currentAttribute = filter(None, currentAttribute)
