@@ -1,14 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<center>
-<div class="row">
-    <div class="col-md-12">
-        <h1>Search SBC Compare</h1>
-        <h4>Search for boards below. Select ones that you would like to compare!</h4>
-    </div>
-</div>
-</center>
 <div class="row">
     <div class="col-md-12">
         <form id="search_form" method="POST">{% csrf_token %}
@@ -67,11 +59,9 @@
 
     // Ajax for sending search string to server and receiving updated results list
     $(document).on('submit', '#search_form', function(e){
-        //e.preventDefault();
         $.ajax({
             type: 'POST',
             url: 'search_post',
-            // data: { search_results: $form.serialize()},
             data: { search_input: $('#search_form').serialize(), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
             success: function(data) {
                 console.log('hello')
@@ -87,7 +77,6 @@
 
     // Ajax for moving board from search results to compare list
     $(document).on('change', '#search_results', function(e){
-        //e.preventDefault();
         $.ajax({
             type: 'POST',
             url: 'add_post',
@@ -104,7 +93,6 @@
 
     // Ajax for moving board from search results to compare list
     $(document).on('change', '#selected_boards', function(e){
-        //e.preventDefault();
         $.ajax({
             type: 'POST',
             url: 'add_post',

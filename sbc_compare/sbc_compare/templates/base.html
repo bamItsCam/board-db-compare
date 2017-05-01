@@ -14,6 +14,19 @@
 
 <!--My first stylesheet attempt of the decade :)-->
 <style>
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable_div, #printable_div * {
+    visibility: visible;
+  }
+  #printable_div {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
 .glyphicon:before {
   visibility: visible;
 }
@@ -33,10 +46,11 @@ input[type=checkbox].glyphicon{
 .jumbotron {
   background-color: #f4511e;
   color: #fff;
-  padding: 80px 25px;
+  padding: 25px 25px;
+  margin-bottom: 0px;
 }
 .container-fluid {
-  padding: 30px 30px;
+  padding: 10px 30px;
 }
 .btn-lg {
   font-size: 18px;

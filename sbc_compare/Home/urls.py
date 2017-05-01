@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^search$', views.search_boards, name='search_boards'),
     url(r'^search_post$',views.search_post,name='search_post'),
     url(r'^add_post$',views.add_post,name='add_post'),
-    url(r'^', views.select_boards, name="select_boards"),
+    url(r'^', views.search_boards, name="home"),
 ]

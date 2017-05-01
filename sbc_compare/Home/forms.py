@@ -34,6 +34,10 @@ class SearchResults(forms.Form):
 
 	def clean(self):
 		cleaned_data = super(SearchResults, self).clean()
+		if len(cleaned_data.get('search_output')) == 0:
+			raise ValidationError("No boards selected, Try again.")
+		elif len(cleaned_data.get('search_output')) > 5:
+			raise ValidationError("Too many boards selected, selecte 5 or less.")
 
 
 class SearchSelected(forms.Form):

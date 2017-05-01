@@ -78,6 +78,10 @@ def add_post(request):
 	return HttpResponse('')
 
 def compare(request):
+	# compare button check
+	if request.method=="POST" and "back" in request.POST:
+		return redirect('home')
+
 	selected = _reformat_board_attributes(request.session.get('selected', ''))
 
 	return render(request,'Home/compare.html',{'selected' : selected})
@@ -88,14 +92,15 @@ def _compare_button_press(request):
 	if form_results.is_valid(): # Compare button
 		request.session['selected'] = list(form_results.cleaned_data['search_output'].values())
 		print "compare hit"
-		return redirect('/compare')
+		return redirect('compare')
+	return redirect ('home') #home
 
 def _reset_button_press(request):
 	# clear session vals
 	request.session['latest_search'] = ''
 	request.session['all_selected_board_ids'] = ''
 	print "reset hit"
-	return redirect('/search')
+	return redirect('home')
 
 def _count_search_results(request):
 	count = dbBoards.objects.filter(name__contains=request.session.get('latest_search', '')).count()
