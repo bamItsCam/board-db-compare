@@ -6,7 +6,17 @@
 	        window.print()
 	        console.log('print!')
 	    });
-    });
+		$("td").each(function() {
+			console.log("calculating column width")
+    		var cols = $("table > tbody > tr:first > td").length;
+    		console.log(cols);
+    		var totWidth = $('#compareTable').width();
+    		console.log(totWidth);
+    		var colWidth = totWidth/cols;
+    		console.log(colWidth);
+    		$(this).width(colWidth);
+    	});
+});
 </script>
 <div class="row">
     <div class="col-md-12" style="text-align: center;">
@@ -21,7 +31,7 @@
 <div id="printable_div">
 	<h1>Board Comparison</h1>
 	<br>
-	<table class="table table-bordered" >
+	<table id="compareTable" class="table table-bordered" >
 	{% autoescape off %}
 		<thead>
 			<tr>
