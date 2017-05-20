@@ -27,7 +27,7 @@ Run sed -i '/http {/a \ \ \ \ include /etc/nginx/sites-enabled/*;' /etc/nginx/ng
     ln -s /etc/nginx/sites-available/sbc-nginx.conf /etc/nginx/sites-enabled/sbc-nginx.conf
 
 RUN chown -R sbc.sbc /usr/bin/sbc_compare
-EXPOSE 8080
+EXPOSE 8080 8000
 
 USER sbc
 
