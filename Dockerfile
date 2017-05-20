@@ -27,8 +27,8 @@ Run sed -i '/http {/a \ \ \ \ include /etc/nginx/sites-enabled/*;' /etc/nginx/ng
     ln -s /etc/nginx/sites-available/sbc-nginx.conf /etc/nginx/sites-enabled/sbc-nginx.conf
 
 RUN chown -R sbc.sbc /usr/bin/sbc_compare
-EXPOSE 80
+EXPOSE 8080
 
 USER sbc
 
-CMD /bin/sh -c "gunicorn sbc_compare.wsgi -b 127.0.0.1:8001 --daemon"
+CMD /bin/sh -c "gunicorn sbc_compare.wsgi -b 0.0.0.0:8000"
