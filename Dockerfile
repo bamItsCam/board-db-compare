@@ -12,7 +12,8 @@ RUN cd /tmp/ && \
     git clone git://github.com/bamItsCam/board-db-compare.git && \
     cp -r /tmp/board-db-compare/sbc_compare /usr/bin/ && \
     cp /tmp/board-db-compare/sbc-nginx.conf /etc/nginx/nginx.conf && \
-    rm -rf /tmp/board-db-compare
+    rm -rf /tmp/board-db-compare && \
+    sed -i 's/DEBUG = True/DEBUG = False/g' /usr/bin/sbc_compare/sbc_compare/settings.py
 
 WORKDIR /usr/bin/sbc_compare
 
