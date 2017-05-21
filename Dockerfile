@@ -1,5 +1,4 @@
 FROM python:2.7-alpine
-RUN addgroup -S sbc && adduser -S -g sbc sbc
 
 RUN apk update && \
     apk upgrade && \
@@ -21,12 +20,9 @@ RUN python manage.py collectstatic --noinput && \
     python manage.py populate_db && \
     python manage.py makemigrations && \
     python manage.py migrate --run-syncdb
-    
-RUN /usr/sbin/nginx
 
-RUN chown -R sbc.sbc /usr/bin/sbc_compare
+RUN mkdir -p /run/nginx
+
 EXPOSE 8080 8000
 
-USER sbc
-
-CMD /bin/sh -c "gunicorn sbc_compare.wsgi -b 0.0.0.0:8000"
+CMD /bin/sh -c "/usr/sbin/nginx && gunicorn sbc_compare.wsgi -b 127.0.0.1:8000"
