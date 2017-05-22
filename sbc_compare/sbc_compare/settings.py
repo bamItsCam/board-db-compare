@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
-import os
+import os, random
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8xj)(6adtm5zpb1r4gt9ze#zbznktmrl+0)3ssq=q5$!*v#%bv'
+SECRET_KEY = ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
@@ -134,6 +134,6 @@ STATICFILES_DIRS = [
 # Email server for contact page
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'sbccompare@gmail.com'
-EMAIL_HOST_PASSWORD = 'lxiiCzrIXqc7chqronJM'
+EMAIL_HOST_PASSWORD = 'lxiiCzrIXqc7chqronJM' #ssshhh, no one will ever notice
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
