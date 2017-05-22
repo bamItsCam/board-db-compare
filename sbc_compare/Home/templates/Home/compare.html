@@ -10,6 +10,7 @@
 			console.log("calculating column width")
     		var cols = $("table > tbody > tr:first > td").length;
     		console.log(cols);
+    		//var totWidth = $('#compareTable').width();
     		var totWidth = $('#compareTable').width();
     		console.log(totWidth);
     		var colWidth = totWidth/cols;
@@ -31,7 +32,7 @@
 <div id="printable_div">
 	<h1>Board Comparison</h1>
 	<br>
-	<table id="compareTable" class="table table-bordered" >
+	<table id="compareTable" class="table table-bordered">
 	{% autoescape off %}
 		<thead>
 			<tr>

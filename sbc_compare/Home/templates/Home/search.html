@@ -5,14 +5,8 @@
     <div class="col-md-12">
         <form id="search_form" method="POST">{% csrf_token %}
             <!--<div style="float: left; width:600px;">-->
-            <div class="row">
-                <div class="col-md-11">
-                    {{ form_search }}
-                </div>
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-primary btn-xs outline" id="updateResults" style="width: 100px;"><span class="glyphicon glyphicon-search"></span></button>
-                </div>
-            </div>
+                <div style="display:inline-block;width:80%;">{{ form_search }}</div>
+                <div style="display:inline-block;"><button type="submit" class="btn btn-primary btn-xs outline" id="updateResults"><span class="glyphicon glyphicon-search"></span></button></div>
         </form>
     </div>
 </div>
@@ -22,15 +16,8 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6" style="text-align: center;">
-        <h3>Search Results</h3>
-    </div>
-    <div class="col-md-6" style="text-align: center;">
-        <h3>Selected Boards</h3>
-    </div>
-</div>
-<div class="row">
     <div class="col-md-6">
+        <h3 style="text-align:center;">Search Results</h3><br>
         <div class="form-control" style="height: 200px;">
             <form id="search_results" method="POST">{% csrf_token %}
                 {{ form_results }}
@@ -38,6 +25,7 @@
         </div>
     </div>
     <div class="col-md-6">
+        <h3 style="text-align: center;">Selected Boards</h3><br>
         <div class="form-control" style="height: 200px;">
             <form id="selected_boards" method="POST">{% csrf_token %}
                 {{ form_selected }}
