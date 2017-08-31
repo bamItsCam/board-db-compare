@@ -13,5 +13,4 @@ docker run -d -p=8080:8080 -p=8000:8000 sbc-compare
 docker rm $(docker ps -aq)
 
 # Remove all old docker images
-docker rmi $(docker images | grep '<none>' | awk
- '{print $3}')
+docker rmi $(docker images | grep '<none>' | awk '{print $3}')
