@@ -1,4 +1,4 @@
-## Building the image and running the container
+## Reference file for bash commands to build the image and run the container
 
 # Get the dockerfile, place it in a dir, run
 docker build -t sbc-compare .
